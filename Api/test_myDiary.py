@@ -21,7 +21,25 @@ class TestMyDiary(TestCase):
             self.assertEqual(result['Message'], 'No entries yet')
 
     def test_add_new_entry(self):
-        self.fail()
+        #get record count
+        res = MyDiary.get_all_entries()
+
+        #add new record
+        result = MyDiary.add_new_entry()
+        response= jsonify(result)
+
+        #get current record count after adding
+        res1 = MyDiary.get_all_entries()
+
+        #check if the count of res is less than res1
+        if len(res) < len(res1):
+
+            self.assertTrue(result['message'], 'added successfully')
+            self.assertTrue(response.status_code, 201)
+        else:
+            self.assertTrue(response.status_code, 304)
+
+
 
     def test_update_task(self):
         self.fail()
