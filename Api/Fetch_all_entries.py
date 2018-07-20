@@ -7,11 +7,7 @@ BASE_URL = '/MyDiary/api/v1'
 app = Flask(__name__)
 app.config.from_object(config.DevelopmentConfig)
 
-@app.route('{}/entries/'.format(BASE_URL), methods=['GET'])
-    def get_all_entries(self):
-           
-
-     # fetch all entries end point
+# fetch all entries end point
 		my_entries = [
 			        {
 			            'id': 1,
@@ -35,7 +31,9 @@ app.config.from_object(config.DevelopmentConfig)
 			            'last_update': '1-07-2018'
 			        }
 			]
-
+@app.route('{}/entries/'.format(BASE_URL), methods=['GET'])
+    def get_all_entries(self):
+    	
 			if len(all_entries)==0:
 				result = {
             	'message': 'No entries yet.'
@@ -48,3 +46,12 @@ app.config.from_object(config.DevelopmentConfig)
  		response = jsonify(result)
     	response.status_code = 200
 		return response
+
+@app.route('/entries/<int:entry_id>', methods=['GET'])
+    def get_one_entry(self, entry_id):
+            my_entry = [my_entry for my_entry in my_entries if my_entry['id'] == entry_id]
+            if len(my_entry) == 0:
+                abort(404)
+            
+            response = jsonify({'Entry': my_entry[entry_id]})
+            response.status_code = 200
