@@ -1,11 +1,15 @@
+from typing import Dict, List, Union
+
 from flask import Flask, jsonify, request, abort
 
 import _datetime
 
+'''BASE_URL = '/MyDiary/api/v1' '''
+
 app = Flask(__name__)
 
 
-my_entries = [
+all_entries = [
         {
             'id': 1,
             'title': u'challenge One',
@@ -30,36 +34,61 @@ my_entries = [
 ]
 
 
-class MyDiary:
+# '''class MyDiary:
 
-    @app.route('/', methods=['GET'])
-    def get_all_entries(self):
+''''@app.route('/all_entries', methods=['GET'])
+def get_all_entries():
             return jsonify({'Entries': my_entries})
+'''
 
-    @app.route('/entries/<int:entry_id>', methods=['GET'])
-    def get_one_entry(self, entry_id):
-            my_entry = [my_entry for my_entry in my_entries if my_entry['id'] == entry_id]
-            if len(my_entry) == 0:
-                abort(404)
-                return jsonify({'Entry': my_entry[entry_id]})
 
-    @app.route('/entries', methods=['POST'])
-    def add_new_entry(self):
-            if not request.json or 'title' not in request.json:
-                abort(400)
-                my_entry = {
-                    'id': my_entries[-1]['id'] + 1,
+@app.route('/my_entries', methods=['GET'])
+def get_all_entries(self):
+    if len(all_entries) == 0:
+        result = {
+            'message': 'No entries yet.'
+        }
+        response = jsonify(result)
+        return response
+    else:
+        result = all_entries
+        response = jsonify(result)
+        response.status_code = 200
+        return response
+
+
+@app.route('/my_entries/<int:entry_id>', methods=['GET'])
+def get_one_entry(self, entry_id):
+    for my_entry in all_entries:
+        if my_entry['id'] == entry_id:
+            response = jsonify('Entry', my_entry)
+            response.status_code = 200
+            return response
+        else:
+            return jsonify(' No entry found', 304)
+
+
+@app.route('/Add_entries', methods=['POST'])
+def add_new_entry(self, entry_id):
+    for my_entry in all_entries:
+        if my_entry['id'] != entry_id:
+            my_entry = {
+                    'id': all_entries[-1]['id'] + 1,
                     'title': request.json['title'],
                     'description': request.json.get('description', ""),
                     'Date_Created': request.json.get(_datetime.date.today()),
                     'last_update': request.json.get(_datetime.date.today())
                  }
-                my_entries.append(my_entry)
-                return jsonify({'Entry': my_entry}), 201
+            all_entries.append(my_entry)
+            result = {'message': 'Added successfully'}
+            response = jsonify(result)
+            response.status_code = 201
+            return jsonify({'Entry': my_entry}), 201
 
-    @app.route('/MyDiary/api/v1/entries/<int:entry_id>', methods=['PUT'])
-    def update_task(self, entry_id):
-        my_entry = [my_entry for my_entry in my_entries if my_entry['id'] == entry_id]
+
+@app.route('/my_entries/<int:entry_id>', methods=['PUT'])
+def update_task(self, entry_id):
+        my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == entry_id]
         if len(my_entry) == 0:
             abort(404)
 
@@ -79,12 +108,14 @@ class MyDiary:
         my_entry[0]['last_update'] = request.json.get('last_update', my_entry[0]['last_update'])
         return jsonify({'task': my_entry[0]})
 
-    @app.route("/MyDiary/api/v1/signup")
-    def sign_up(self):
+
+@app.route("/MyDiary/api/v1/signup")
+def sign_up(self):
         return "Get started"
 
-    @app.route("/MyDiary/api/v1/sign_in")
-    def login(self):
+
+@app.route("/MyDiary/api/v1/sign_in")
+def login(self):
         return "Welcome, please sign-in"
 
 
