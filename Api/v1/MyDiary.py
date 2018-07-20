@@ -82,12 +82,12 @@ def add_new_entry(self, entry_id):
             all_entries.append(my_entry)
             result = {'message': 'Added successfully'}
             response = jsonify(result)
-            response.status_code = 201
-            return jsonify({'Entry': my_entry}), 201
+            response.status_code = 200
+        return jsonify({'Entry': my_entry}), 201
 
 
 @app.route('/my_entries/<int:entry_id>', methods=['PUT'])
-def update_task(self, entry_id):
+def update_entry(self, entry_id):
         my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == entry_id]
         if len(my_entry) == 0:
             abort(404)
@@ -106,7 +106,9 @@ def update_task(self, entry_id):
         my_entry[0]['description'] = request.json.get('description', my_entry[0]['description'])
         my_entry[0]['Date_Created'] = request.json.get('Date_Created', my_entry[0]['Date_Created'])
         my_entry[0]['last_update'] = request.json.get('last_update', my_entry[0]['last_update'])
-        return jsonify({'task': my_entry[0]})
+        response = jsonify({'task': my_entry[0]})
+        response.status_code = 201
+        return 'Entry updated successfully'
 
 
 @app.route("/MyDiary/api/v1/signup")
