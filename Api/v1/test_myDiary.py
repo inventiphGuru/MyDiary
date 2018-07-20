@@ -1,6 +1,7 @@
 from unittest import TestCase
 from flask import jsonify
-'''from MyDiary import '''
+
+import MyDiary
 
 
 class TestMyDiary(TestCase):
