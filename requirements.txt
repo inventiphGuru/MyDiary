@@ -1,0 +1,10 @@
+Flask
+Flask-Bcrypt
+flask-restplus
+nose2
+pylint
+pytest
+yapf
+coverage
+pyjwt
+gunicorn
