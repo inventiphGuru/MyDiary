@@ -43,7 +43,7 @@ def get_all_entries():
 
 
 @app.route('/my_entries', methods=['GET'])
-def get_all_entries():
+def get_all_entries(self):
     if len(all_entries) == 0:
         result = {
             'message': 'No entries yet.'
@@ -58,7 +58,7 @@ def get_all_entries():
 
 
 @app.route('/my_entries/<int:entry_id>', methods=['GET'])
-def get_one_entry(entry_id):
+def get_one_entry(self, entry_id):
     for my_entry in all_entries:
         if my_entry['id'] == entry_id:
             response = jsonify('Entry', my_entry)
@@ -69,7 +69,7 @@ def get_one_entry(entry_id):
 
 
 @app.route('/Add_entries', methods=['POST'])
-def add_new_entry(entry_id):
+def add_new_entry(self, entry_id):
     for my_entry in all_entries:
         if my_entry['id'] != entry_id:
             my_entry = {
@@ -87,7 +87,7 @@ def add_new_entry(entry_id):
 
 
 @app.route('/my_entries/<int:entry_id>', methods=['PUT'])
-def update_task(entry_id):
+def update_task(self, entry_id):
         my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == entry_id]
         if len(my_entry) == 0:
             abort(404)
@@ -110,12 +110,12 @@ def update_task(entry_id):
 
 
 @app.route("/MyDiary/api/v1/signup")
-def sign_up():
+def sign_up(self):
         return "Get started"
 
 
 @app.route("/MyDiary/api/v1/sign_in")
-def login():
+def login(self):
         return "Welcome, please sign-in"
 
 
