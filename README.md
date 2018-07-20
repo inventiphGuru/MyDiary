@@ -16,3 +16,5 @@ Get a specific diary entry. --- method [GET]
 Add an entry  --- Method [POST]
 Modify an entry. --- method [PUT]
 
+#Coverall bagde:
+https://coveralls.io/repos/github/inventiphGuru/MyDiary/badge.svg(Coverage Status)!:https://coveralls.io/github/inventiphGuru/MyDiary
