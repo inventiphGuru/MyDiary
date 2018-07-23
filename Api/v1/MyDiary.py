@@ -2,6 +2,8 @@ from typing import Dict, List
 from flask import Flask, jsonify, request, abort
 from flask_api import FlaskAPI, status
 
+import copy
+
 from instance.config import app_config
 
 import _datetime
@@ -54,7 +56,7 @@ def create_app(config_name):
         
 
     @app.route('/MyDairy/api/v1/my_entries/<int:entry_id>', methods=['GET'])
-    def get_one_entry( entry_id):
+    def get_one_entry(entry_id):
         entry=[entry for entry in all_entries if entry['id'] == entry_id]
         if len(entry)== 0:
             abort(404)
@@ -62,45 +64,43 @@ def create_app(config_name):
 
     @app.route('/MyDairy/api/v1/my_entries', methods=['POST'])
     def add_new_entry():
-        New_id = all_entries[-1]['id'] + 1
-        title = request.args.get('title')
-        description = request.args.get('description')
-        Date_Created = request.args.get(_datetime.date.today())
-        last_update = request.args.get(_datetime.date.today())
-        if title and description:
-            my_entry = MyDairy.add_new_entry(New_id, title,description,Date_Created,last_update)
-            if not my_entry:
-                response = jsonify(message='Bad request. Similar entry exists'), 400
-            else:
-                response = jsonify({'entry added' :{'title' : title,'description' : description,'Date_Created' : Date_Created,
-                    'last_update': last_update}})
+        my_entry = {
+        'id': all_entries[-1]['id'] + 1,
+        'title': request.json['title'],
+        'description': request.json.get('description', ""),
+        'Date_Created': request.json.get(_datetime.date.today()),
+        'last_update': request.json.get(_datetime.date.today())
+        }
 
-            response.status_code = 201
+        all_entries.append(my_entry)
+        result = {'message': 'Added successfully'}
+        response = jsonify(result)
 
+        response.status_code = 201
+
+        return jsonify({'Entry': my_entry}), 201
+
+           # if not my_entry:
+           #     response = jsonify(message='Bad request. Similar entry exists'), 400
+           # else:
+            #    response = jsonify({'entry added' :{'title' : title,'description' : description,'Date_Created' : Date_Created,
+            #        'last_update': last_update}})
+
+        
     @app.route('/MyDairy/api/v1/my_entries/<int:entry_id>', methods=['PUT'])
     def update_entry(entry_id):
-                my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == entry_id]
-                if len(my_entry) == 0:
-                    abort(404)
+        entry=[entry for entry in all_entries if entry['id'] == entry_id]
+        if entry['id'] == entry_id:
+            my_entry = {
+                'title': request.json['title'],
+                'description': request.json.get('description', ""),
+                'last_update': request.json.get(_datetime.date.today())
+                }
 
-                if not request.json:
-                    abort(400)
-
-                if 'title' in request.json and type(request.json['title']) != str:
-                    abort(400)
-                if 'description' in request.json and type(request.json['description']) is not str:
-                    abort(400)
-                if 'done' in request.json and type(request.json['done']) is not bool:
-                    abort(400)
-
-                if request.method == 'PUT':
-                    my_entry[0]['title'] = request.json.get('title', my_entry[0]['title'])
-                    my_entry[0]['description'] = request.json.get('description', my_entry[0]['description'])
-                    my_entry[0]['Date_Created'] = request.json.get('Date_Created', my_entry[0]['Date_Created'])
-                    my_entry[0]['last_update'] = request.json.get('last_update', my_entry[0]['last_update'])
-                response = jsonify({'task': my_entry[0]})
-                response.status_code = 201
-                return 'Entry updated successfully'
+        all_entries.append(my_entry)
+        result = {'message': 'updated successfully'}
+        response = jsonify(result)
+        response.status_code = 201
 
 
     @app.route("/signup")

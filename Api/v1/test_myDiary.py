@@ -8,7 +8,7 @@ ADD_ENTRY_URL = '/MyDairy/api/v1/my_entries'
 SINGLE_ENTRY_URL = '/MyDairy/api/v1/my_entries/1'
 MY_ENTRIES_URL = '/MyDairy/api/v1/my_entries'
 ENTRY_DELETE_URL = '/MyDairy/api/v1/my_entries/1'
-ENTRY_UPDATE_URL = '/MyDairy/api/v1/my_entries/1'
+ENTRY_UPDATE_URL = '/MyDairy/api/v1/my_entries/1/content'
 all_entries = [
         {
             'id': 1,
@@ -52,12 +52,12 @@ class TestMyDiary(TestCase):
         response = self.client.get(MY_ENTRIES_URL)
         self.assertEqual(response.status_code, 200)
         
-    def get_one_entry(self):
+    def test_get_one_entry(self):
         #result = MyDiary.get_one_entry(1)
         #my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == 1]
         #self.assertEqual(result, my_entry)
-        response = self.client.post(SINGLE_ENTRY_URL, data=json.dumps(self.data), content_type="application/json")
-        self.assertEqual(response.status_code, 201)
+        response = self.client.get(SINGLE_ENTRY_URL)
+        self.assertEqual(response.status_code, 200)
    
 
     def test_add_new_entry(self):
@@ -67,6 +67,6 @@ class TestMyDiary(TestCase):
 
     def test_update_task(self):
         response = self.client.post(ENTRY_UPDATE_URL, data=json.dumps(self.data), content_type="application/json")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
 
