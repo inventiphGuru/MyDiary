@@ -31,10 +31,10 @@ If not, you can get python3 by running
 
     2. Create and start your virtual environment in python3:
          
-		 * Create
+		 * #Create
         $ virtualenv -p python3 venv
 		
-		* start
+		* #start
         $ pip install autoenv
         
 * #Install your requirements from within the virtualenv
@@ -43,16 +43,17 @@ If not, you can get python3 by running
 
 * ## Running It
     On your terminal navigate to the v1 folder
+    ```
 	 $ cd myDiary
 	(myDiary)$ cd api
 	 (api)$ Cd v1
-	 
-	, run the server using this one simple command:
-    
-    $ (v1)$ python app.py
- 
-    You can now access the app on your local browser by using
-    
+	 ```
+	 run the server using this one simple command:
+	 ``` $ (v1)$ python app.py
+ 	 ```
+	You can now access the app on your local browser by using
+    ```
     http://localhost:5040/my_entries
+    ```
    
  * ##test creating entries using Postman
