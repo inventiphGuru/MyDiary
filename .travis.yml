@@ -6,11 +6,12 @@ python:
   
 install:
   - pip install coveralls
+  - pip install flask-api
   - pip install -r requirements.txt
   
 script:
   - pytest
-  - coverage run --source=app -m pytest  && coverage report
+  - coverage run --source=API/v1 -m pytest && coverage report
 
 after_success:
   - coveralls
