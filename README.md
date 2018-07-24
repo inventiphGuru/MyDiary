@@ -2,6 +2,9 @@
 <a href="https://codeclimate.com/github/inventiphGuru/MyDiary/maintainability">
 <img src="https://api.codeclimate.com/v1/badges/1b2d513327c14f928799/maintainability" /></a>
 
+<a href="https://codeclimate.com/github/inventiphGuru/MyDiary/test_coverage">
+<img src="https://api.codeclimate.com/v1/badges/1b2d513327c14f928799/test_coverage" /></a>
+
 this is an Api that allows CRUD functionilty to the Mydiary app.
 The following are the http verbs and end points of the Api.
 
