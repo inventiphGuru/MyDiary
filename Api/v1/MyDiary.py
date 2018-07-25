@@ -4,7 +4,7 @@ from flask_api import FlaskAPI, status
 
 import copy
 
-from instance.config import app_config
+import config
 
 import _datetime
 
@@ -38,16 +38,9 @@ def create_app(config_name):
 
     app = FlaskAPI(__name__, instance_relative_config=True)
 
-    app.config.from_object(app_config[config_name])
+    app.config.from_object(config[config_name])
 
-  
-# '''class MyDiary:
-
- #   ''''@app.route('/all_entries', methods=['GET'])
- #   def get_all_entries():
-  #              return jsonify({'Entries': my_entries})
-  #  '''
-    
+ 
 
     @app.route('/MyDairy/api/v1/my_entries', methods=['GET'])
     def get_all_entries():
