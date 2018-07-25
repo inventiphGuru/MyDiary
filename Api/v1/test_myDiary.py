@@ -33,7 +33,6 @@ all_entries = [
         }
 ]
 
-
 class TestMyDiary(TestCase):
 
     def setUp(self):
@@ -53,13 +52,9 @@ class TestMyDiary(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_get_one_entry(self):
-        #result = MyDiary.get_one_entry(1)
-        #my_entry = [my_entry for my_entry in all_entries if my_entry['id'] == 1]
-        #self.assertEqual(result, my_entry)
         response = self.client.get(SINGLE_ENTRY_URL)
         self.assertEqual(response.status_code, 200)
    
-
     def test_add_new_entry(self):
         response = self.client.post(ADD_ENTRY_URL, data=json.dumps(self.data), content_type="application/json")
         self.assertEqual(response.status_code, 201)
